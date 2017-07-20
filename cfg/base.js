@@ -18,6 +18,7 @@ module.exports = {
     path: path.join(__dirname, '/../dist/assets'),
     filename: 'app.js',
     publicPath: defaultSettings.publicPath
+//		publicPath: defaultSettings.distPublicPath
   },
   devServer: {
     contentBase: './src/',
@@ -25,6 +26,7 @@ module.exports = {
     hot: true,
     port: defaultSettings.port,
     publicPath: defaultSettings.publicPath,
+//		publicPath: defaultSettings.distPublicPath,
     noInfo: false
   },
   resolve: {

@@ -45,6 +45,10 @@ function getDefaultModules() {
         loader: 'style-loader!css-loader!stylus-loader'
       },
       {
+        test: /\.json$/,
+        loader: 'json-loader'
+      },
+      {
         test: /\.(png|jpg|gif|woff|woff2)$/,
         loader: 'url-loader?limit=8192'
       },
@@ -58,7 +62,8 @@ function getDefaultModules() {
 
 module.exports = {
   srcPath: srcPath,
-  publicPath: '/assets/',
+publicPath: '/assets/',
+//distPublicPath : './assets/',
   port: dfltPort,
   getDefaultModules: getDefaultModules
 };
