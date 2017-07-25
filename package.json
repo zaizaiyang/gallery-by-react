@@ -79,23 +79,23 @@
     "url": "https://github.com/zaizaiyang/gallery-by-react/issues"
   },
   "homepage": "https://github.com/zaizaiyang/gallery-by-react#readme",
-  "babel": {  
-    "presets": [  
-      "es2015",  
-      "react",  
-      "stage-0"  
-    ],  
-    "plugins": [  
-      "add-module-exports",  
-      [  
-        "transform-runtime",  
-        {  
-          "helpers": false,  
-          "polyfill": false,  
-          "regenerator": true,  
-          "moduleName": "babel-runtime"  
-        }  
-      ]  
-    ]  
-  }  
+  "babel": {
+    "presets": [
+      "es2015",
+      "react",
+      "stage-0"
+    ],
+    "plugins": [
+      "add-module-exports",
+      [
+        "transform-runtime",
+        {
+          "helpers": false,
+          "polyfill": false,
+          "regenerator": true,
+          "moduleName": "babel-runtime"
+        }
+      ]
+    ]
+  }
 }
