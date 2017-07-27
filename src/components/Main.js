@@ -21,14 +21,14 @@ imageDatas=(function genImageURL(imageDatasArr){
  * 获取区间内的一个随机值
  */
 function getRangeRandom(low,high) {
-	return Math.ceil(Math.random() * (high - low) + low);
+	return Math.floor(Math.random() * (high - low) + low);
 }
 
 /*
  * 获取0-30度之间的一个任意正负值
  */
 function get30DegRandom(){
-	return((Math.random() > 0.5 ? '' : '-') + Math.ceil(Math.random() * 30));
+	return((Math.random() > 0.5 ? '' : '-') + Math.floor(Math.random() * 30));
 }
 
 
@@ -91,6 +91,43 @@ let ImgFigure = React.createClass({
 	}
 });
 
+
+// 控制组件
+var ControllerUnit = React.createClass({
+	
+	handleClick:function(e){
+		
+		// 判断所点击图片是否居中
+		if(this.props.arrange.isCenter) {
+			this.props.inverse();
+		} else {
+			this.props.center();
+		}
+		
+		e.stopPropagation();
+		e.preventDefault();
+	},
+	
+	render:function(){
+		
+		var controllerUnitClassName = 'controller-unit';
+		// 如果对应图片居中,控制按钮显示居中
+		if(this.props.arrange.isCenter) {
+			controllerUnitClassName += ' is-center';
+			// 如果居中的图片是翻转的，则控制按钮显示的是翻转
+			if(this.props.arrange.isInverse){
+				controllerUnitClassName += ' is-inverse2';
+			}
+		}
+		
+		return(
+			<span className={controllerUnitClassName} onClick={this.handleClick}></span>
+		)
+	}
+	
+});
+
+
 // 舞台组件
 //class AppComponent extends React.Component {
 let AppComponent = React.createClass({
@@ -148,7 +185,7 @@ let AppComponent = React.createClass({
 			vPosRangeX = vPosRange.x,
 			
 			imgsArrangeTopArr = [],
-			topImgNum = Math.ceil(Math.random() * 2),  // 取一个或者不取
+			topImgNum = Math.floor(Math.random() * 2),  // 取一个或者不取
 			topImgSpliceIndex = 0,
 			imgsArrangeCenterArr = imgsArrangeArr.splice(centerIndex,1);
 			
@@ -160,7 +197,7 @@ let AppComponent = React.createClass({
 		};
 		
 		//  取出要布局上侧的图片的状态信息
-		topImgSpliceIndex = Math.ceil(Math.random() * (imgsArrangeArr.length - topImgNum));
+		topImgSpliceIndex = Math.floor(Math.random() * (imgsArrangeArr.length - topImgNum));
 		imgsArrangeTopArr = imgsArrangeArr.splice(topImgSpliceIndex,topImgNum );
 		
 		//  布局位于上侧的图片
@@ -243,15 +280,15 @@ let AppComponent = React.createClass({
 		var stageDOM = ReactDOM.findDOMNode(this.refs.stage),
 			stageW = stageDOM.scrollWidth,
 			stageH = stageDOM.scrollHeight,
-			haflStageW = Math.ceil(stageW / 2),
-			haflStageH = Math.ceil(stageH / 2);
+			haflStageW = Math.floor(stageW / 2),
+			haflStageH = Math.floor(stageH / 2);
 			
 		// 拿到一个imgFigure的大小
 		var imgFigureDOM = ReactDOM.findDOMNode(this.refs.imgFigure0),
 			imgW = imgFigureDOM.scrollWidth,
 			imgH = imgFigureDOM.scrollHeight,
-			halfImgW = Math.ceil(imgW / 2),
-			halfImgH = Math.ceil(imgH / 2);
+			halfImgW = Math.floor(imgW / 2),
+			halfImgH = Math.floor(imgH / 2);
 		
 		// 计算中心图片的位置点
 		this.Constant.centerPos = {
@@ -280,6 +317,7 @@ let AppComponent = React.createClass({
 	render:function(){
   		var controllerUnits = [],
   			ImgFigures = [];
+  			
 		imageDatas.forEach(function(value,index){
 			
 			if(!this.state.imgsArrangeArr[index]){
@@ -295,7 +333,11 @@ let AppComponent = React.createClass({
 			}
 			
 			ImgFigures.push(<ImgFigure data={value} ref={'imgFigure'+index} arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)} key={index} />);
+		
+			controllerUnits.push(<ControllerUnit arrange={this.state.imgsArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)} key={index} />);
+			
 		}.bind(this));
+		
   	
 	    return (
 	        <div className="stage" ref="stage">
@@ -303,7 +345,7 @@ let AppComponent = React.createClass({
 		      		{ImgFigures}
 		      	</div>
 		      	<div className="controller-nav">
-		      		controllerUnits
+		      		{controllerUnits}
 		      	</div>
 		    </div>
 	    )
